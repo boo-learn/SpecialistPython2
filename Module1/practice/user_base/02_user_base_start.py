@@ -1,4 +1,8 @@
+users =[]
+p_id = 0
+
 while True:
+    p_id = p_id + 1
     print("Меню")
     print("1. Добавить пользователя")
     print("2. Удалить пользователя")
@@ -12,12 +16,19 @@ while True:
         surname = input("surname: ")
         username = input("username: ")
         password = input("password: ")
+        user = {"id":p_id,"name":name,"surname":surname,"username":username,"password":password}
+        users.append(user)
         ...
         # print(f"Пользователь {surname} {name} добавлен в базу")
     elif choice == "2":
         print("****Удаление пользователя****")
         id = int(input('id: '))
-        ...
+        for cuser in users:
+            if cuser['id'] == id:
+                users.remove(cuser)
+                break
+        else:
+                print(f"user not found {id}")
         # print(f"Пользователь {surname} {name} с id:{id} удален из базы")
         # print(f"Пользователь с id: {id} не найден")
 
