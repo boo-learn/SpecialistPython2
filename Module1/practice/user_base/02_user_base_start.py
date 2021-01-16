@@ -1,3 +1,4 @@
+# test
 while True:
     print("Меню")
     print("1. Добавить пользователя")
