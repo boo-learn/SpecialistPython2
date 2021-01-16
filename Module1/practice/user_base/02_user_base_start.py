@@ -1,3 +1,12 @@
+
+NAME = "name"
+SURNAME = "surname"
+USERNAME = "username"
+PASSWORD = "password"
+
+users = {}
+current_id = 0
+
 while True:
     print("Меню")
     print("1. Добавить пользователя")
@@ -12,18 +21,35 @@ while True:
         surname = input("surname: ")
         username = input("username: ")
         password = input("password: ")
-        ...
-        # print(f"Пользователь {surname} {name} добавлен в базу")
+
+        curent_user = {NAME:name, SURNAME:surname, USERNAME:username, PASSWORD:password}
+        current_id += 1
+        users[current_id] = curent_user
+
+        print(f"Пользователь {surname} {name} добавлен в базу")
+
     elif choice == "2":
         print("****Удаление пользователя****")
         id = int(input('id: '))
-        ...
-        # print(f"Пользователь {surname} {name} с id:{id} удален из базы")
-        # print(f"Пользователь с id: {id} не найден")
+
+
+        curent_user = users.get(id)
+
+        if curent_user == None :
+            print(f"Пользователь с id: {id} не найден")
+
+        else :
+            del users[id]
+            surname = curent_user[SURNAME]
+            name=curent_user[NAME]
+
+            print(f"Пользователь {surname} {name} с id:{id} удален из базы")
 
     elif choice == "3":
         print("****Список всех пользователей****")
-        ...
+
+        for key in users :
+
 
     elif choice == "4":
         print("****Редактирование пользователя****")
