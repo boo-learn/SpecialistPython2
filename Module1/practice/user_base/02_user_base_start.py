@@ -23,7 +23,12 @@ while True:
     elif choice == "2":
         print("****Удаление пользователя****")
         id = int(input('id: '))
-        ...
+        for cuser in users:
+            if cuser['id'] == id:
+                users.remove(cuser)
+                break
+        else:
+                print(f"user not found {id}")
         # print(f"Пользователь {surname} {name} с id:{id} удален из базы")
         # print(f"Пользователь с id: {id} не найден")
 
