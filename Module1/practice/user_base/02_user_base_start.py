@@ -1,3 +1,4 @@
+users = []
 while True:
     print("Меню")
     print("1. Добавить пользователя")
@@ -12,8 +13,14 @@ while True:
         surname = input("surname: ")
         username = input("username: ")
         password = input("password: ")
-        ...
-        # print(f"Пользователь {surname} {name} добавлен в базу")
+        user = {
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password
+        }
+        users.append(user)
+        print(f"Пользователь {surname} {name} добавлен в базу")
     elif choice == "2":
         print("****Удаление пользователя****")
         id = int(input('id: '))
