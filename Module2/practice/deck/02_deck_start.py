@@ -33,26 +33,33 @@ class Card:
     def __value_weight(self):
         return self.__VALUE_WEIGHT[self.value]
 
+    def __compare(self, card):
+        # если текущая карта меньше card -> -1
+        # если карты равны -> 0
+        # если текущая карта больше card -> 1
+
+        if self.__value_weight() > card.__value_weight() :
+            return 1
+
+        if self.__value_weight() < card.__value_weight():
+            return -1
+
+        if self.__type_weight() > card.__type_weight() :
+            return 1
+
+        if self.__type_weight() < card.__type_weight():
+            return -1
+
+        return 0
+
     def more(self, card):
         #возвращает True, если карта у которой вызван метод больше, чем карта которую передали в качестве параметра.
 
-        if self.__type_weight() > card.__type_weight() :
-            return True
-
-        if self.__type_weight() < card.__type_weight():
-            return False
-
-        return self.__value_weight() > card.__value_weight()
+        return self.__compare(card) > 0
 
     def less(self, card):
         # проверяет является ли карта младше, чем карта в параметре
-        if self.__type_weight() < card.__type_weight() :
-            return True
-
-        if self.__type_weight() > card.__type_weight():
-            return False
-
-        return self.__value_weight() < card.__value_weight()
+        return self.__compare(card) < 0
 
 #-------------------------------------------------------------------
 
