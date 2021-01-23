@@ -99,3 +99,26 @@ class Teacher(People):
 
 # Наследование позволяет избежать дублирования и кода
         # и повторно использовать уже готовые реализации
+    
+    
+    ###
+    class Fraction:
+    def __init__(self,str):
+        whole = str.split()[0]
+        fr = (str.split()[1]).split("/")
+        numerator = fr[0]
+        denominator = fr[1]
+
+        self.whole = whole,
+        self.numerator = numerator,
+        self.denominator = denominator
+
+    def add(self, fract):
+        new_whole = self.whole + fract.whole
+        new_numerator = self.numerator + fract.numerator
+        new_denominator = self.denominator + fract.denominator
+        return Fraction(new_whole, new_numerator, new_denominator)
+
+
+
+fract1 = Fraction("2 1/2")
