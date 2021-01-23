@@ -18,9 +18,11 @@ class Card:
         self.type = type
 
     def __repr__(self):
-        return self.to_str
+        return self.to_str()
 
-    @property
+    #def __getitem__(self, index):
+    #    return self.cards[index]
+
     def to_str(self):
         return f"{self.value}{types[self.type]['unicode']}"
 
@@ -29,7 +31,7 @@ class Card:
             return True
         return False
 
-    def more(self, other):
+    def __gt__(self, other):
         if values.index(self.value) > values.index(other.value) \
                 and values.index(self.value) != values.index(other.value):
             return True
@@ -39,27 +41,18 @@ class Card:
             return True
         return False
 
-    def less(self, other):
-        return not self.more(other)
-
 
 class Deck:
     def __init__(self):
-        self.cards = []
-
-        for type in types:
-            for value in values:
-                card = Card(value, type)
-                self.cards.append(card)
+        self.cards = [Card(value, type) for value in values for type in types]
 
     def show(self):
         return print(f'deck[{len(self.cards)}]: {[card for card in self.cards]}')
 
     def draw(self, x):
-        drawed = []
-        for i in range(x):
-            drawed.append(self.cards.pop(i))
-        return drawed
+        if x == 1:
+            return self.cards.pop(0)
+        return [self.cards.pop(0) for _ in range(x)]
 
     def shuffle(self):
         return random.shuffle(self.cards)
@@ -73,7 +66,7 @@ def test1():
     deck = Deck()
     deck.shuffle()
     hand = deck.draw(2)
-    if hand[0].more(hand[1]):
+    if hand[0] > hand[1]:
         big = hand[0]
         small = hand[1]
     else:
@@ -104,13 +97,13 @@ def test3():
     deck = Deck()
     deck.shuffle()
     drawed = []
-    card1 = deck.draw(1)[0]
+    card1 = deck.draw(1)
     drawed.append(card1)
     while len(deck.cards) > 0:
         deck.shuffle()
-        card2 = deck.draw(1)[0]
+        card2 = deck.draw(1)
         drawed.append(card2)
-        if card2.less(card1):
+        if card2 < card1:
             card1 = card2
             continue
         else:
@@ -135,8 +128,8 @@ def test4():
     deck1.count = 0
     deck2.count = 0
     while len(deck2.cards) > 0:
-        hand = [deck1.draw(1)[0], deck2.draw(1)[0]]
-        if hand[0].more(hand[1]):
+        hand = [deck1.draw(1), deck2.draw(1)]
+        if hand[0] > hand[1]:
             deck1.count += 1
         else:
             deck2.count += 1
@@ -167,7 +160,7 @@ def test5():
     player1_min_card = player1[0]
     print(f'Рука игрока-1: {[i for i in player1]}')
     for c in player1:
-        if c.less(player1_min_card):
+        if c < player1_min_card:
             player1_min_card = c
     table.append(player1.pop(player1.index(player1_min_card)))
     print(f'Игрок-1 кладет карту {player1_min_card}')
@@ -179,7 +172,7 @@ def test5():
             return print(f'Игроку-2 нечем бить. Игрок-1 выиграл.')
         player2_min_card = player2_list_to_defend[0]
         for c in player2_list_to_defend:
-            if c.less(player2_min_card):
+            if c < player2_min_card:
                 player2_min_card = c
         table.append(player2.pop(player2.index(player2_min_card)))
         print(f'Игрок-2 отбивается картой {player2_min_card}')
@@ -193,7 +186,7 @@ def test5():
             return print(f'Игроку-1 нечего подкидывать')
         player1_can_add_min_card = player1_can_add[0]
         for c in player1_can_add:
-            if c.less(player1_can_add_min_card):
+            if c < player1_can_add_min_card:
                 player1_can_add_min_card = c
         print(f'Рука игрока-1: {[i for i in player1]}')
         table.append(player1.pop(player1.index(player1_can_add_min_card)))
@@ -226,6 +219,9 @@ def run_tests():
     test4()
     test5()
     test6()
+    c1 = Card(4, 'hearts')
+    c2 = Card(4, 'hearts')
+    print(c1 == c2)
 
 
 def main():
