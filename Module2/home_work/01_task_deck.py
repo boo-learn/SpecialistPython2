@@ -17,6 +17,9 @@ class Card:
         self.value = value
         self.type = type
 
+    def __repr__(self):
+        return self.to_str
+
     @property
     def to_str(self):
         return f"{self.value}{types[self.type]['unicode']}"
@@ -50,7 +53,7 @@ class Deck:
                 self.cards.append(card)
 
     def show(self):
-        return print(f'deck[{len(self.cards)}]: {[card.to_str for card in self.cards]}')
+        return print(f'deck[{len(self.cards)}]: {[card for card in self.cards]}')
 
     def draw(self, x):
         drawed = []
@@ -102,11 +105,11 @@ def test3():
     deck.shuffle()
     drawed = []
     card1 = deck.draw(1)[0]
-    drawed.append(card1.to_str)
+    drawed.append(card1)
     while len(deck.cards) > 0:
         deck.shuffle()
         card2 = deck.draw(1)[0]
-        drawed.append(card2.to_str)
+        drawed.append(card2)
         if card2.less(card1):
             card1 = card2
             continue
@@ -162,25 +165,25 @@ def test5():
     player1 = deck.draw(6)
     player2 = deck.draw(6)
     player1_min_card = player1[0]
-    print(f'Рука игрока-1: {[i.to_str for i in player1]}')
+    print(f'Рука игрока-1: {[i for i in player1]}')
     for c in player1:
         if c.less(player1_min_card):
             player1_min_card = c
     table.append(player1.pop(player1.index(player1_min_card)))
-    print(f'Игрок-1 кладет карту {player1_min_card.to_str}')
+    print(f'Игрок-1 кладет карту {player1_min_card}')
     while len(player2) > 0:
-        print(f'Рука игрока-2: {[i.to_str for i in player2]}')
+        print(f'Рука игрока-2: {[i for i in player2]}')
         player2_hand_types = [types[i.type] for i in player2]
-        player2_list_to_defeat = [c for c in player2 if c.type == table[-1].type and values.index(c.value) > values.index(table[-1].value)]
-        if not len(player2_list_to_defeat):
+        player2_list_to_defend = [c for c in player2 if c.type == table[-1].type and values.index(c.value) > values.index(table[-1].value)]
+        if not len(player2_list_to_defend):
             return print(f'Игроку-2 нечем бить. Игрок-1 выиграл.')
-        player2_min_card = player2_list_to_defeat[0]
-        for c in player2_list_to_defeat:
+        player2_min_card = player2_list_to_defend[0]
+        for c in player2_list_to_defend:
             if c.less(player2_min_card):
                 player2_min_card = c
         table.append(player2.pop(player2.index(player2_min_card)))
-        print(f'Игрок-2 отбивается картой {player2_min_card.to_str}')
-        print(f'На столе {[c.to_str for c in table]}')
+        print(f'Игрок-2 отбивается картой {player2_min_card}')
+        print(f'На столе {[c for c in table]}')
         table_values = [i.value for i in table]
         player1_can_add = []
         for c in player1:
@@ -192,10 +195,10 @@ def test5():
         for c in player1_can_add:
             if c.less(player1_can_add_min_card):
                 player1_can_add_min_card = c
-        print(f'Рука игрока-1: {[i.to_str for i in player1]}')
+        print(f'Рука игрока-1: {[i for i in player1]}')
         table.append(player1.pop(player1.index(player1_can_add_min_card)))
-        print(f'Игрок-1 подкидывает {player1_can_add_min_card.to_str}')
-        print(f'На столе {[c.to_str for c in table]}')
+        print(f'Игрок-1 подкидывает {player1_can_add_min_card}')
+        print(f'На столе {[c for c in table]}')
 
 
 def test6():
