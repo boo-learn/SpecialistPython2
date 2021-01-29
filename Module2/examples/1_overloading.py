@@ -1,41 +1,48 @@
-# =============================
-#    Перегрузка операторов
-# =============================
+class Vector(list):
 
-# Имена методов, начинающиеся и заканчивающиеся двумя символами подчеркивания __X__, имеют специальное назначение.
-# Такие методы вызываются автоматически, когда объект участвует в соответствующей операции.
-# Возвращаемое значение метода становится результатом соответствующей операции.
+    def __init__(self,x,y):
+        list.__init__(self,[x,y])
 
+    def __sub__(self, invect):
+        templst = [vi - wi for vi, wi in zip(self, invect)]
+        return Vector(templst[0],templst[1])
 
-class Vector:
-    def __init__(self, pos):
-        self.x = pos[0]
-        self.y = pos[1]
+    def __mul__(self, k):
+        templst = [vi * k for vi in self]
+        return Vector(templst[0],templst[1])
 
-    # Перегружаем оператор +
-    def __add__(self, other):
-        return Vector((self.x + other.x, self.y + other.y))
+    def __add__(self,invect):
+        templst = [v + w for v, w in zip(self, invect)]
+        return Vector(templst[0],templst[1])
 
     def as_point(self):
-        return self.x, self.y
+        return self[0], self[1]
 
-    # Формируем удобное отображение объекта при выводе функцией print()
-    def __str__(self):
-        return "V(x:{} y:{})".format(self.x, self.y)
+    # def __str__(self):
+         # return "V(x:{} y:{})".format(self[0], self[1])
 
-# Создаем экземпляры класса (объекты)
-v1 = Vector((10, 15))
-v2 = Vector((12, 10))
 
-# Наши объекты участвуют в операции сложения (+)
+v1 = Vector(31,44)
+v2 = Vector(42,53)
+
+print('Сложение векторов:')
+
 v3 = v1 + v2
-# На самом деле это работает так:
-# v3 = v1.__add__(v2)
-# Благодаря перегрузке, мы можем использовать более удобную и привычную запись: v3 = v1 + v2
+print(f'V{v1} + V{v2} = V{v3}')
 
-# Выводим результат
-print('v3 = ', v3)
-# Функция print() для получения строки для вывода вызывает методы __str__()
-print('v3 + v3 =', v3 + v3)
+print('Вычитание векторов: ')
 
-# Список ВСЕХ magic-методов см. тут: http://pythonworld.ru/osnovy/peregruzka-operatorov.html
+v4 = v3 - v1
+print(f'V{v3} - V{v1} = V{v4}')
+
+print('Умножение вектора на скаляр(число): ')
+
+k = -3
+v5 = v1 * k
+
+print(f'V{v5} = V{v1} * {k}')
+
+k = 3
+v6 = v1 * k
+
+print(f'V{v6} = V{v1} * {k}')
