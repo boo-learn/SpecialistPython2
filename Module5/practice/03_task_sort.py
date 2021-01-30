@@ -11,7 +11,7 @@ def test3():
     max_arr = []
 
     for i in range(10):
-        max_arr.append(arr.pop(arr.index(max(arr))))
+        max_arr.append(arr.pop(arr.index(arr[-1])))
 
     summ = sum([i for i in max_arr])
 
