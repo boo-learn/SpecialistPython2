@@ -11,3 +11,18 @@
 # 10 1 3 4 3 5 6 7 7 6 1
 # Выход
 # 5
+
+
+
+from Lib.buble_sort import buble_sort
+
+n=5
+prices = [10,200,4,500,2,5,700]
+
+buble_sort(prices)
+print("sorted mass", prices)
+
+if (print(len(prices)/2 % 2 ==0)):
+    print(sum(prices[-len(prices):]))
+
+else: print(sum(prices[-len(prices)+1:]))
