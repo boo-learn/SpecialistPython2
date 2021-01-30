@@ -21,7 +21,7 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
                 out += str(current.value) + ','
-            return out + ']'
+            return out[:-1] + ']'
         return 'LinkedList []'
 
     def clear(self):
