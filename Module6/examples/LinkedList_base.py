@@ -111,3 +111,19 @@ if __name__ == "__main__":
     # TODO: реализовать создание нового списка с задание начальных элементов
     # L = LinkedList(2, 4, 6, -12)
     # print(L)
+
+    
+    ###
+        def __str__(self):
+        # FIXME: убрать вывод запятой после последнего элемента
+        if self.first is not None:
+            comma =',';
+            current = self.first
+            out = 'LinkedList [' + str(current.value) + ','
+            while current.next is not None:
+                current = current.next
+                if(current.next is  None):
+                    comma = ''
+                out += str(current.value) + comma
+            return out + ']'
+        return 'LinkedList []'
