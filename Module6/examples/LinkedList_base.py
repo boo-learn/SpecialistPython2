@@ -21,7 +21,7 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
                 out += str(current.value) + ','
-            return out + ']'
+            return out[:-1] + ']'  # Пофиксил запятую в конце
         return 'LinkedList []'
 
     def clear(self):
@@ -29,7 +29,8 @@ class LinkedList:
         Очищаем список
         """
         # TODO: реализовать очистку списка
-        raise TypeError("Not implemented")
+        # raise TypeError("Not implemented")
+        self.last = self.first = None
 
     def add(self, value):
         """
@@ -91,6 +92,8 @@ if __name__ == "__main__":
     L.add(2)
     L.add(3)
 
+    print(L)
+    L.clear()
     print(L)
 
     # TODO: реализовать интерфейс итерации
