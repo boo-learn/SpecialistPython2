@@ -6,12 +6,14 @@
 # Этот процесс продолжается до последней пары элементов в списке.
 
 nums = [5, 2, 1, 8, 4]
+n=0
 swapped = True
 while swapped:
     swapped = False
-    for i in range(len(nums) - 1):
+    for i in range(len(nums) - n -1):
         if nums[i] > nums[i + 1]:
             # Меняем элементы
+            n=i
             nums[i], nums[i + 1] = nums[i + 1], nums[i]
             # Устанавливаем swapped в True для следующей итерации
             swapped = True
