@@ -13,3 +13,18 @@
 # 70
 # Пояснение:
 # Возможен такой порядок: 10 2 50 1 10
+
+###
+from Lib.buble_sort import buble_sort
+
+n=5
+prices = [10,200,4,500,2,5,700]
+
+buble_sort(prices)
+print("sorted mass", prices)
+
+if (print(len(prices)/2 % 2 ==0)):
+    print(sum(prices[-len(prices):]))
+
+else: print(sum(prices[-len(prices)+1:]))
+
