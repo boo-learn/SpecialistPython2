@@ -1,0 +1,50 @@
+# Class vector 
+import math
+
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        
+    def length(self):
+        return math.sqrt(self.x ** 2 + self.y ** 2)
+    
+    def __repr__(self):
+        return f'vect({self.x},{self.y})'
+    
+    def __add__(self, other_vector):
+        return Vector(self.x + other_vector.x, self.y + other_vector.y)
+    
+    def __sub__(self, other_vector):
+        return Vector(self.x - other_vector.x, self.y - other_vector.y)
+    
+    def __mul__(self, k):
+        return Vector(k * self.x, k * self.y)
+    
+    
+def main():
+    
+    v1 = Vector(3, 4)
+    v2 = Vector(4, 6)
+    
+    print(f'v1: {v1} len: {v1.length()}')
+    print(f'v2: {v2} len: {v2.length()}')
+    
+    v3 = v1 + v2
+    
+    print(f'v3 = v1 + v2: {v3} len: {v3.length()}')
+        
+    v4 = v1 - v2
+    
+    print(f'v4 = v1 - v2: {v4} len: {v4.length()}')
+        
+
+    k = -1
+    print(f'k = {k}')
+    v5 = v1 * k
+    
+    print(f'v5 = v1 * k: {v5} len: {v5.length()}')
+    
+if __name__ == '__main__':
+    main()
+    
