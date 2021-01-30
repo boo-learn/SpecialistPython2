@@ -21,6 +21,10 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
                 out += str(current.value) + ','
+            # << FIXME    
+            else:
+                out = out[:len(out)-1]
+            # FIXME >>    
             return out + ']'
         return 'LinkedList []'
 
