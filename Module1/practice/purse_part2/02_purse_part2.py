@@ -20,7 +20,7 @@ class Operation:
         self.target = target
 
     def info(self):
-        return f"{self.type} sum:{self.summa}{f' to {self.target}' if self.target else ''}"
+        return f"{self.type} sum:{self.summa}{f' to/from {self.target}' if self.target else ''}"
 
 
 class Purse:
