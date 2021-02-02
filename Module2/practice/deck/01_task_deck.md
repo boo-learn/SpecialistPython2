@@ -1,86 +1,69 @@
-# Колода карт
+class Card:
+    SPADES = "\u2660"
+    HEARTS = "\u2665"
+    CLUBS = "\u2663"
+    DIAMONDS = "\u2666"
+    J = 11
+    Q = 12
+    K = 13
+    A = 14
 
+    @staticmethod
+    def suit_greater_then(a, b):
+        """
+            # 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A
+            # ♥ > ♦ > ♣ > ♠"""
+        # исключим равенство мастей
+        if not a.equal_suit(b):
+            return False
+        elif (a.type == Card.HEARTS) or (b.type == Card.SPADES):
+            return True
+        elif (a.type == Card.SPADES) or (b.type == Card.HEARTS):
+            return False
+        elif a.type == Card.DIAMONDS:
+            if b.type == Card.CLUBS:
+                return True
+            else:
+                return False
 
-### Задание
+    def equal_suit(self, other):
+        return self.type == other.type
 
-Разработать класс для “колоды игральных карт”, который в дальнейшем будет использоваться для карточных консольных мини-игр.
+    def __init__(self, value, type):
+        self.type = type
+        if value.lower() == "j":
+            self.value = Card.J
+            return
+        if value.lower() == "q":
+            self.value = Card.Q
+            return
+        if value.lower() == "k":
+            self.value = Card.K
+            return
+        if value.lower() == "a":
+            self.value = Card.A
+            return
+        self.value = int(value)
 
+    def __repr__(self):
+        return self.to_str()
 
-### Колода
+    def to_str(self):
+        return f"{self.value}{self.type}"
 
-Колода состоит из 52 карт.
+    def less(self, other_card):
+        if self.value < other_card.value:
+            return True
+        elif self.value == other_card.value:
+            return not Card.suit_greater_then(self, other_card)
+        else:
+            return False
 
-Значения карт: 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A
+    def more(self, other_card):
 
-Масти карт: ♥ ♦ ♣ ♠
-
-Говоря “берем карту сверху колоды” подразумеваем получение карты с начала списка колоды.
-
-
-#### Конструктор колоды
-
-При создании новой колоды все карты должны находиться в отсортированном порядке - сначала идут все червы от 2-ки до туза, затем буби, крести и пики.
-
-
-#### Методы колоды
-
-*   метод **.shuffle**() - перемешивает колоду, располагая карты в случайном порядке.
-*   методы .**draw**(x) - возвращает x первых карт из колоды в виде списка, эти карты убираются из колоды.
-*   метод .**show**() - отображает все карты колоды в формате: \
-deck[12]: 3♥, 4♦, A♣, … \
-где 12 - текущее кол-во карт в колоде.
-
-
-### Карты
-
-Карты в колоде тоже должны являться объектами - экземплярами класса Card
-
-
-#### Конструктор карты
-
-При создании конструктор карты принимает: значение карты и ее масть. \
-**Примечание:**
-
-Diamonds    Бубны
-
-Hearts	    Червы
-
-Spades	    Пики
-
-Clubs       Трефы
-
-
-#### Методы карты
-
-*   .**to_str**() возвращает строковое представление карты в виде строки, формата:4♦
-*   .**equal_suit**(card) - проверяет, одинаковые ли масти у карт \
-Пример: \
-card1.more(card2) → **True**, при card1(J♦) card2(10♦). 
-*   .**more**(card) - возвращает True, если карта у которой вызван метод больше, чем карта которую передали в качестве параметра. \
-**Пример**:  \
-card1.more(card2) → **True**, при card1(J♦) card2(10♦). Валет больше(старше) 10-ки \
-card1.more(card2) → **False**, при card1(4♦) card2(10♦). 4-ка не старше 10-ки
-*   .**less**(card) - проверяет является ли карта младше, чем карта в параметре 
-
-
-##### Нюансы сравнения карт
-
-Если у карты больше(старше) значение, то она больше(старше). При равенстве значений, сравниваем масти. Старшинство мастей определяем следующее: ♥>♦>♣>♠
-
-
-##### Вывод иконок карт в консоль
-
-Пример вывода иконок в консоль:
-
-
-```
-print('\u2661', '\u2665')
-print('\u2662', '\u2666')
-print('\u2667', '\u2663')
-print('\u2664', '\u2660')
-```
-
-
-\uxxxx - юникод символ. Полный список всех юникод символов можно взять [тут](https://unicode-table.com/ru/#basic-latin).
-
-Юникод символы мастей игральных карт [тут](https://unicode-table.com/ru/search/?q=%D0%BC%D0%B0%D1%81%D1%82%D0%B8).
+        if self.value > other_card.value:
+            return True
+        elif self.value == other_card.value:
+            return Card.suit_greater_then(self, other_card)
+        else:
+            return False
