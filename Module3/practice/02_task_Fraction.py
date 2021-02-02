@@ -9,7 +9,10 @@ class Fraction:
         self.denominator = ... # знаменатель
         # целую часть перебрасываем в числитель
         # минус, если он есть, тоже храним в числителе
-
+    def plus(self, fract_other):
+        resultnum = self.numerator +  fract_other.numerator
+        resulrdenom = self.denominator +  fract_other.denominator
+        return f'{resultnum}/{resulrdenom}'    
 
 # Примеры создания дробей:
 fract1 = Fraction("3 12/15")
