@@ -11,3 +11,32 @@
 # 10 1 3 4 3 5 6 7 7 6 1
 # Выход
 # 5
+
+from Gener_list import gen_list
+from sort_bubble import sort_bubble
+
+print("Сколько призеров (<100) ")
+N=int(input())
+
+num=gen_list(N,1,10)
+print('Результаты участников: ', num)
+
+sort_bubble(num)
+print('Результаты по возратсанию: ',num)
+
+#результаты без повторений
+num1 = list(set(num))
+#print(num1)
+
+#количество наград у каждого балла
+num2=[]
+for el in num1:
+    count=0
+    for el1 in num:
+        if el1==el:
+            count+=1
+    num2.append(count)
+
+#print(num2)
+
+print('Число призеров ',sum(num2[len(num2)-3:N]))
