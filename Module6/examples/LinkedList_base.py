@@ -7,29 +7,37 @@ class Node:
         self.value = value
         self.next = next
 
+    # def __repr__(self):
+    #     return f"{self.value} -> {self.next}"
+
 
 class LinkedList:
     def __init__(self):
         self.first = None
         self.last = None
+        self.__length = 0
 
     def __str__(self):
-        # FIXME: убрать вывод запятой после последнего элемента
+        # FIXME: убрать вывод запятой после последнего элемента ##DONE
         if self.first is not None:
             current = self.first
             out = 'LinkedList [' + str(current.value) + ','
             while current.next is not None:
                 current = current.next
-                out += str(current.value) + ','
+                out += str(current.value)
+                if current.next is not None:
+                    out += ','
             return out + ']'
         return 'LinkedList []'
-
+    
     def clear(self):
         """
         Очищаем список
         """
-        # TODO: реализовать очистку списка
-        raise TypeError("Not implemented")
+        # TODO: реализовать очистку списка #done
+        # raise TypeError("Not implemented")
+        self.first = None
+        self.last = None
 
     def add(self, value):
         """
@@ -45,6 +53,7 @@ class LinkedList:
             new_node = Node(value, None)
             self.last.next = new_node
             self.last = new_node
+        self.__length += 1
 
     def push(self, value):
         """
@@ -56,13 +65,33 @@ class LinkedList:
         else:
             new_node = Node(value, self.first)
             self.first = new_node
+        self.__length += 1
 
     def insert(self, value, index):
         """
         Вставляет узел со значением value на позицию index
         """
-        # TODO: реализовать вставку
-        raise TypeError("Not implemented")
+        # TODO: #done реализовать вставку
+
+
+        new = Node(value)  # next is empty yet
+        if index == 0:
+            self.push(value)
+            return
+        if index == self.__length:
+            self.add(value)
+            return
+        if index > self.__length:
+            self.add(value)
+            return
+
+        curr: Node = self.first
+        for i in range(index-1):
+            curr = curr.next
+        new.next = curr.next  # now new point to list[index+1]
+        curr.next = new
+
+        self.__length += 1
 
     def find(self, value):
         """
@@ -75,14 +104,15 @@ class LinkedList:
         raise TypeError("Not implemented")
 
     def len(self):
-        # TODO: сделать более быструю реализацию, т.к. каждый раз проходка по всем элементам - долго
-        length = 0
+        # TODO: #done сделать более быструю реализацию, т.к. каждый раз проходка по всем элементам - долго
+        """length = 0
         if self.first is not None:
             current = self.first
             while current.next is not None:
                 current = current.next
                 length += 1
-        return length + 1  # +1 для учета self.first
+        return length + 1  # +1 для учета self.first"""
+        return self.__length
 
 
 if __name__ == "__main__":
@@ -90,8 +120,13 @@ if __name__ == "__main__":
     L.add(1)
     L.add(2)
     L.add(3)
-
     print(L)
+    L.insert(4, 0)
+    print(L)
+    L.insert(5, 4)
+    print(L)
+    L.insert(5, 8)
+    print(L.len())
 
     # TODO: реализовать интерфейс итерации
     # for el in L:
