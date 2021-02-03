@@ -9,3 +9,9 @@ employees = [
 ]
 # Выведите список сотрудников(без указания должности) в формате: Фамилия Имя, в отсортированном порядке.
 # Примечание: если фамилии сотрудников совпадают, при сортировке учесть имя.
+employees.sort(key=lambda el : el["name"])
+employees.sort(key=lambda el : el['surname'])
+#print(employees)
+
+for el in employees:
+   print(el["name"], el["surname"])
