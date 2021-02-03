@@ -5,14 +5,18 @@
 # сравниваем их значения и меняем местами при необходимости.
 # Этот процесс продолжается до последней пары элементов в списке.
 
-nums = [5, 2, 1, 8, 4]
+nums = [2, 14, 4, 8,11,12,5,2,-5]
 swapped = True
+granica = len(nums) - 1
 while swapped:
     swapped = False
-    for i in range(len(nums) - 1):
+
+    for i in range(granica):
+        print('i=',i)
         if nums[i] > nums[i + 1]:
             # Меняем элементы
             nums[i], nums[i + 1] = nums[i + 1], nums[i]
             # Устанавливаем swapped в True для следующей итерации
             swapped = True
+    granica -= 1
 print(nums)
