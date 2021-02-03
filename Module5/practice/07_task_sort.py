@@ -13,3 +13,16 @@
 # 70
 # Пояснение:
 # Возможен такой порядок: 10 2 50 1 10
+from gen_list import gen_list
+from bubble_sort import sort
+h=gen_list(10,start=0,end=100)
+sort(h,order='decrease')
+print(h)
+print(h[:len(h)//2])
+print(h[len(h)//2:])
+new_list=[]
+for i,k in zip(h[:len(h)//2],h[len(h)//2:]):
+    new_list.append(i)
+    new_list.append(k)
+print(new_list)
+print(sum(h[:len(h)//2]))
