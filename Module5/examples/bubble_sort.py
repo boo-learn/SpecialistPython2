@@ -5,14 +5,19 @@
 # сравниваем их значения и меняем местами при необходимости.
 # Этот процесс продолжается до последней пары элементов в списке.
 
-nums = [5, 2, 1, 8, 4]
+nums = [5, 56, 2, 1, 8, 4, 18]
 swapped = True
+j = 1
 while swapped:
     swapped = False
-    for i in range(len(nums) - 1):
+    print()
+    for i in range(len(nums) - j):
+        print(f'i={i}', end='|')  # ОТОБРАЖАЕТСЯ НА ВСЕХ ИТЕРАЦИЯХ
         if nums[i] > nums[i + 1]:
             # Меняем элементы
             nums[i], nums[i + 1] = nums[i + 1], nums[i]
+            # print(f'i={i}', end='|') # ОТОБРАЖАЕТСЯ ИТОЛЬКО НА ЗАМЕНАХ
             # Устанавливаем swapped в True для следующей итерации
             swapped = True
+    j += 1
 print(nums)
