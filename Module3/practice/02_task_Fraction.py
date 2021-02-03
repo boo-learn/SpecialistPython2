@@ -1,18 +1,49 @@
-# Задание "Простые дроби"
+class Vector:  # Вектор с координатами x,y
+    def __init__(self, m):
+        self.x = m[0]
+        self.y = m[1]
 
-# Сюда отправляем задание с классом дроби
+    def __repr__(self):
+        return f'({self.x}; {self.y})'
 
-class Fraction:
-    def __init__(self, fract_str): # Дробь в конструктор передается в виде строки
-        # А мы храним дробь в виде
-        self.numerator = ... # числителя
-        self.denominator = ... # знаменатель
-        # целую часть перебрасываем в числитель
-        # минус, если он есть, тоже храним в числителе
+    # def summa(self,vect):
+    #     rez_x=self.x+vect.x
+    #     rez_y = self.y + vect.y
+    #     return f'({rez_x}; {rez_y})'
+
+    def __add__(self, vect):
+        rez_x = self.x + vect.x
+        rez_y = self.y + vect.y
+        return f'({rez_x}; {rez_y})'
+
+    def __sub__(self, vect):
+        rez_x = self.x - vect.x
+        rez_y = self.y - vect.y
+        return f'({rez_x}; {rez_y})'
+
+    # def multipl(self,scalar):
+    #     rez_x = self.x*scalar
+    #     rez_y = self.y*scalar
+    #     return f'({rez_x}; {rez_y})'
+
+    def __mul__(self,scalar):
+        rez_x = self.x*scalar
+        rez_y = self.y*scalar
+        return f'({rez_x}; {rez_y})'
 
 
-# Примеры создания дробей:
-fract1 = Fraction("3 12/15")
-fract2 = Fraction("-1 2/6")
-fract3 = Fraction("2/4")
-fract4 = Fraction("-2/4")
+
+
+
+
+vect1=Vector((-1,1))
+print('Вектор 1:',vect1)
+
+vect2=Vector((5,-2))
+print('Вектор 2:',vect2)
+
+print(f'vect1+vect2 = {vect1+vect2}')
+print(f'vect1-vect2 = {vect1-vect2}')
+
+print(f'vect1*6 = {vect1*6}')
+
