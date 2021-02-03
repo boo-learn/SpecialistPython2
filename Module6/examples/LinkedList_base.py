@@ -21,7 +21,7 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
                 out += str(current.value) + ','
-            return out + ']'
+            return out.strip(',') + ']'
         return 'LinkedList []'
 
     def clear(self):
@@ -29,7 +29,8 @@ class LinkedList:
         Очищаем список
         """
         # TODO: реализовать очистку списка
-        raise TypeError("Not implemented")
+        self.first = None
+        self.last = None
 
     def add(self, value):
         """
@@ -62,7 +63,12 @@ class LinkedList:
         Вставляет узел со значением value на позицию index
         """
         # TODO: реализовать вставку
-        raise TypeError("Not implemented")
+        if self.first is not None:
+            current = self.first
+            for i in (0, index - 1):
+                if current.next is not None:
+                    current = current.next
+        current.next = Node(value, current.next)
 
     def find(self, value):
         """
@@ -90,6 +96,8 @@ if __name__ == "__main__":
     L.add(1)
     L.add(2)
     L.add(3)
+
+    L.insert(77, 1)
 
     print(L)
 
