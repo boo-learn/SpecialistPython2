@@ -1,18 +1,37 @@
-# Задание "Простые дроби"
+# Задание "Векторы"
 
-# Сюда отправляем задание с классом дроби
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-class Fraction:
-    def __init__(self, fract_str): # Дробь в конструктор передается в виде строки
-        # А мы храним дробь в виде
-        self.numerator = ... # числителя
-        self.denominator = ... # знаменатель
-        # целую часть перебрасываем в числитель
-        # минус, если он есть, тоже храним в числителе
+    def __add__(self, other_vector):
+        return Vector(self.x + other_vector.x, self.y + other_vector.y)
 
+    def __iadd__(self, other_vector):
+        self.x += other_vector.x
+        self.y += other_vector.y
+        return self
 
-# Примеры создания дробей:
-fract1 = Fraction("3 12/15")
-fract2 = Fraction("-1 2/6")
-fract3 = Fraction("2/4")
-fract4 = Fraction("-2/4")
+    def __sub__(self, other_vector):
+        return Vector(self.x - other_vector.x, self.y - other_vector.y)
+
+    def __isub__(self, other_vector):
+        self.x -= other_vector.x
+        self.y -= other_vector.y
+        return self
+
+    def __mul__(self, scalar:int):
+        return Vector(self.x * scalar, self.y * scalar)
+
+    def __rmul__(self, scalar:int):
+        return self.__mul__(scalar)
+
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
+
+v1 = Vector(3, 5)
+v2 = Vector(4, 7)
+print(f"сумма:        {v1} + {v2} = {v1 + v2}")
+print(f"разность:     {v1} - {v2} = {v1 - v2}")
+print(f"произведение: {v1} * 3 = {v1 * 3} (= {3 * v1})")
