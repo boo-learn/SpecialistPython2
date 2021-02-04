@@ -1,0 +1,55 @@
+# Чаще всего
+# Дан массив(список) целых чисел. Определить, какое число в массиве встречается чаще всего.
+# Вывести это число и количество повторений.
+
+def gen_list(size, at=-10, to=10):
+    '''
+    create a list of intengers   
+    '''
+    import random
+    return [random.randint(at, to) for _ in range(size)]
+
+def most_frequent_number(list_int):
+    '''
+    find the most common number in the array and the number of repetitions
+    (the first one found if there are several)
+    '''
+    # create a dictionary for counting repetitions of numbers
+    dict_rep = {}
+
+    if list_int == []:
+        print('List empty')
+        return # 0, 0
+    
+    for el in list_int:
+        if el in dict_rep:
+            dict_rep[el] += 1
+        else:
+            dict_rep.setdefault(el, 1)
+            
+    max_rep = 0
+    el_max_rep = 0
+    
+    for el_dict in dict_rep:
+        if dict_rep[el_dict] > max_rep:
+            max_rep = dict_rep[el_dict]
+            el_max_rep = el_dict
+            
+    return  el_max_rep, max_rep 
+    
+    
+
+def main():
+    
+    mass1 = gen_list(20)
+    print(mass1)
+    print(most_frequent_number(mass1))
+    
+    mass1 = []
+    print(mass1)
+    print(most_frequent_number(mass1))
+    
+
+if __name__=='__main__':
+    main()
+
