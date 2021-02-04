@@ -36,13 +36,21 @@ def close_account():
     Закрыть счет клиента.
     Считаем, что оставшиеся на счету деньги были выданы клиенту наличными, при закрытии счета
     """
-    pass
-
+    indexs = []
+    passport = input('Введите номер паспорта счета ')
+    for account in accounts:
+        if account.passport8 == passport:
+            index = accounts.index(account)
+            indexs.append(index)
+    for index in indexs:
+        accounts.remove(index)
 
 def view_accounts_list():
     """
         Отображение всех клиентов банка в виде нумерованного списка
         """
+    for account in accounts:
+        print(account)
 
 
 def view_account_by_passport():
@@ -80,16 +88,27 @@ def transfer():
 
 
 def create_new_account():
-    print("Укажите данные клиента")
-    name = input("Имя:")
-    second_name = input("Отчество:")
-    surname = input("Фамилия:")
-    passport = input("Номер паспорта: ")
-    phone_number = input("Номер телефона: ")
-    # Если лень каждый раз вводить - воспользуйтесь функцией генератором
-    # name, surname, second_name, passport, phone_number = gen_user_data()
+    from generators import get_user_data
+    tuple = get_user_data()
+    name = tuple[0]
+    second_name = tuple[1]
+    surname = tuple[2]
+    passport = tuple[3]
+    phone_number = tuple[4]
     # TODO: тут создаем новый аккаунт пользователя account = ...
     #   и добавляем его в accounts.append(account)
+    account = Account(name, second_name, surname, passport, phone_number, 100)
+    accounts.append(account)
+    return
+
+    # print("Укажите данные клиента")
+    # name = input("Имя:")
+    # second_name = input("Отчество:")
+    # surname = input("Фамилия:")
+    # passport = input("Номер паспорта: ")
+    # phone_number = input("Номер телефона: ")
+    # # Если лень каждый раз вводить - воспользуйтесь функцией генератором
+    # # name, surname, second_name, passport, phone_number = gen_user_data()
 
 
 def client_menu(account):
@@ -184,6 +203,27 @@ def start_menu():
                 print("Указан несуществующий пасспорт, укажите роль и повторите попытку...")
         else:
             print("Указан некорректный пункт меню, повторите выбор...")
+
+class Account(AccountBase):
+    def transfer(self, target_account, amount):
+         """
+         Перевод денег на счет другого клиента
+         :param target_account: счет клиента для перевода
+         :param amount: сумма перевода
+         :return:
+         """
+         if self.balance >= amount:
+             self.balance -= amount
+             target_account.balance += amount
+         else:
+             raise ValueError("Недостаточно средств")
+         return
+
+    def __repr__(self):
+        """
+        :return: Информацию о счете в виде строки в формате "Иванов И.П. баланс: 100 руб."
+        """
+        return f"{self.surname} {self.name[0]}.{self.second_name[0]}. баланс: {self.balance} руб. (паспорт {self.passport8})"
 
 
 if __name__ == "__main__":
