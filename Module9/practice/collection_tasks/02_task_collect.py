@@ -8,4 +8,17 @@
 # Для решения задачи подберите наиболее удобную структуру.
 # Выведите: учеников, изучающих только один язык
 
-# TODO: your code here...
+import collections
+
+scholars = [
+    {"name": "John", "surname": "Doe", "langs": ["en", "fr"]},
+    {"name": "Jim", "surname": "Doe", "langs": ["en"]},
+    {"name": "Peter", "surname": "Doe", "langs": ["fr"]},
+    {"name": "Eugene", "surname": "Donovan", "langs": ["en", "fr"]}
+
+]
+
+a1 = filter(lambda x: len(x["langs"]) == 2, scholars)
+print(list(a1))
+# for i in range(num_of_scholar):
+#     scholar =
