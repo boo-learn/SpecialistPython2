@@ -1,40 +1,7 @@
-# from cards import Deck, Card
-import json
-json.loads()
-
-player_money = 100  # Деньги игрока
-rate_value = 10  # Размер ставки
-
-deck = Deck()
-
-while True:
-    # 0. Игрок делает ставку
-    player_money -= rate_value
-    # 1. В начале игры перемешиваем колоду
-    # 2. Игроку выдаем две карты
-    player_cards = ...
-    # 3. Дилер берет одну карту
-    dealer_cards = ...
-    # 4. Отображаем в консоли карты игрока и дилера
-    # 5. Проверяем нет ли у игрока блэкджека (21 очко)
-    if blackjack:
-        # Выплачиваем выигрышь 3 и 2
-        player_money += rate_value * 1.5
-        print("Black Jack!!! Игрок победил")
-        # Заканчиваем игру
-    # Если нет блэкджека, то
-    while True:  # Игрок добирает карты пока не скажет "достаточно" или не сделает перебор (>21)
-        player_choice = input("еще/достаточно: ")
-        if player_choice.lower() == "еще" or player_choice.lower() == "ещё":
-            # Раздаем еще одну карту
-            # Если перебор (>21), заканчиваем добор
-            ...
-        if player_choice.lower() == "достаточно":
-            # Заканчиваем добирать карты
-            break
-
-    # Если у игрока не 21(блэкджек) и нет перебора, то
-    while True:  # дилер начинает набирать карты.
-        ...  # Смотри подробные правила добора дилера в задании
-
-    # Выясняем кто набрал больше очков. Выплачиваем/забираем ставку
+class BJ_Card(Card):
+    def getvalue(self: Card, hand_score):
+        if self.value in {"K", "Q", "J"}:
+            return 10
+        if self.value == "A":
+            return 1 if hand_score > 10 else 11
+        return int(self.value)
