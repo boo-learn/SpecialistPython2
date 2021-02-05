@@ -1,0 +1,53 @@
+# 
+# Замена элементов
+# Дан массив(список) целых чисел.
+# Заменить все элементы массива меньше 15 их удвоенными значениями.
+
+def gen_list(size, at=-100, to=100):
+    '''
+    create a list of intengers   
+    '''
+    import random
+    return [random.randint(at, to) for _ in range(size)]
+
+def replace_in_list_el_less(list_int, less_then=15):
+    '''
+    Replace all elements of an array less than <less_then>
+    with their doubled values
+    sorts the list before replacing 
+    '''
+    list_int.sort()
+    for indx, el in enumerate(list_int):
+        # print(el)
+        if el >= less_then:
+            break
+        if el < less_then:
+            list_int[indx] = el * 2
+
+def replace_in_list_el_less_no_sort(list_int, less_then=15):
+    '''
+    Replace all elements of an array less than <less_then>
+    with their doubled values
+    don't sorts the list before replacing
+    '''
+    for indx, el in enumerate(list_int):
+        if el < less_then:
+            list_int[indx] = el * 2
+
+
+def main():
+    
+    mass1 = gen_list(20)
+    print(mass1)
+    replace_in_list_el_less(mass1, less_then=15)
+    print(mass1)
+
+    mass2 = gen_list(30)
+    print(mass2)
+    replace_in_list_el_less_no_sort(mass2, less_then=7)
+    print(mass2)
+
+
+if __name__=='__main__':
+    main()
+
