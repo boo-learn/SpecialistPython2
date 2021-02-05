@@ -112,25 +112,15 @@ class LinkedList:
         if self.__len < 2:
             return
         
-        if index == 0:
-            # меняем значения первого и второго
-            node1 = self.first
-            node2 = node1.next
-            node1.value, node2.value = node2.value, node1.value
-            return
-
         if index >= self.__len - 1:
             # индекс последнего символа или вне списка
             return
               
         current = self.first
         current_index = 0
-        node_up = None
         while True:
             if current_index == index:
-                node1 = current
-                node2 = node1.next
-                node1.value, node2.value = node2.value, node1.value
+                current.value, current.next.value = current.next.value, current.value
                 break
             current = current.next
             current_index += 1
@@ -161,10 +151,13 @@ if __name__ == "__main__":
     L.add(4)
     L.add(5)
     L.add(6)
+    print(L)
+    L.change_value_by_index(8)
+    print(L)
 # 
 #  #   print(L)
 #     L.insert(10, 0)
-    print(L)
+    # print(L)
     L.reverse()
     print(L)
 
