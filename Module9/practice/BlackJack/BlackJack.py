@@ -1,40 +1,79 @@
-# from cards import Deck, Card
-import json
-json.loads()
+import random
+from classes.Card import Card
 
-player_money = 100  # Деньги игрока
-rate_value = 10  # Размер ставки
+class BJCard(Card):
+    def __init__(self,value, type,point):
+        super(BJCard, self).__init__(value, type)
+        self.point=point
+    def __repr__(self):
+        return f'{self.value}{self.type}'
 
-deck = Deck()
+class Deck:
+    def __init__(self,count_card=52):
+        self.cards = []
+        self.__next_index_card__=0
+        for type in [Card.CLUBS, Card.SPADES, Card.HEARTS, Card.DIAMONDS]:
+            if count_card == 52:
+                for value in ['2', '3', '4', '5','6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']:
+                    self.cards.append(Card(value , type))
+            elif count_card == 36:
+                for value in ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A' ]:
+                    self.cards.append(Card(value , type))
 
-while True:
-    # 0. Игрок делает ставку
-    player_money -= rate_value
-    # 1. В начале игры перемешиваем колоду
-    # 2. Игроку выдаем две карты
-    player_cards = ...
-    # 3. Дилер берет одну карту
-    dealer_cards = ...
-    # 4. Отображаем в консоли карты игрока и дилера
-    # 5. Проверяем нет ли у игрока блэкджека (21 очко)
-    if blackjack:
-        # Выплачиваем выигрышь 3 и 2
-        player_money += rate_value * 1.5
-        print("Black Jack!!! Игрок победил")
-        # Заканчиваем игру
-    # Если нет блэкджека, то
-    while True:  # Игрок добирает карты пока не скажет "достаточно" или не сделает перебор (>21)
-        player_choice = input("еще/достаточно: ")
-        if player_choice.lower() == "еще" or player_choice.lower() == "ещё":
-            # Раздаем еще одну карту
-            # Если перебор (>21), заканчиваем добор
-            ...
-        if player_choice.lower() == "достаточно":
-            # Заканчиваем добирать карты
-            break
+    def __repr__(self):
+        deck_str = f"deck[{len(self.cards)}]:"
+        for card in self.cards:
+            deck_str += card.__repr__()
+        return deck_str
 
-    # Если у игрока не 21(блэкджек) и нет перебора, то
-    while True:  # дилер начинает набирать карты.
-        ...  # Смотри подробные правила добора дилера в задании
+    def draw(self, x):
+        hand = []
+        for _ in range(x):
+            try:
+                card = self.cards.pop(0)
+                hand.append(card)
+            except IndexError or TypeError:
+                print("Колода закончилась")
+                return []
+        return hand
 
-    # Выясняем кто набрал больше очков. Выплачиваем/забираем ставку
+    def __getitem__(self, item):
+        if isinstance(item,slice):
+            # print(slice.start)
+            # print(slice.stop)
+            # print(slice.step)
+            return self.cards[item]
+        return self.cards[item]
+        # x=slice(start=x,stop=y,step=z)
+        # for _ in range(x):
+        #     card = self.cards.pop(0)
+        #     hand.append(card)
+        # return hand
+
+    def shuffle(self):
+        random.shuffle(self.cards)
+
+    def __iter__(self):
+        self.__next_index_card__ = 0
+        return self
+
+    def __next__(self):
+        try:
+            card = self.cards[self.__next_index_card__]
+        except IndexError:
+            raise StopIteration
+        self.__next_index_card__+=1
+        return card
+
+class BJDeck(Deck):
+    def __init__(self,count_card=52):
+        self.cards = []
+        self.__next_index_card__ = 0
+        for type in [Card.CLUBS, Card.SPADES, Card.HEARTS, Card.DIAMONDS]:
+            if count_card == 52:
+                for value in ['2', '3', '4', '5', '6', '7', '8', '9', '10']:
+                    self.cards.append(BJCard(value, type, point=int(value)))
+                for value in ['A']:
+                    self.cards.append(BJCard(value, type, point=int(11)))
+                for value in ['J', 'Q', 'K']:
+                    self.cards.append(BJCard(value, type, point=int(10)))
