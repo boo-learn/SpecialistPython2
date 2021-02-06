@@ -24,11 +24,34 @@ class AccountBase(ABC):
         pass
 
     @abstractmethod
+    def deposite(self, amount):
+        """
+        Внесение суммы на текущий счет
+        :param amount: сумма
+        """
+        pass
+
+    @abstractmethod
+    def withdraw(self, amount):
+        """
+        Снятие суммы с текущего счета
+        :param amount: сумма
+        """
+        pass
+
+    @abstractmethod
+    def full_info(self):
+        """
+        Полная информация о счете в формате: "Иванов Иван Петрович баланс: 100 руб. паспорт: 12345678 т.89002000203"
+        """
+        return f"..."
+
+    @abstractmethod
     def __repr__(self):
         """
         :return: Информацию о счете в виде строки в формате "Иванов И.П. баланс: 100 руб."
         """
-        pass
+        return f"..."
 
 
 def close_account():
