@@ -1,3 +1,9 @@
+# Для Связанного списка(LinkedList) реализуйте метод reverse() - меняющий значения
+# всех нод(узлов) на противоположное. Значение первой ноды становится
+# значением последней, значение второй, значением предпоследней.
+# Примечание: при реализации не используйте список(list).
+
+
 class Node:
     """
     Класс для узла списка. Хранит значение и указатель на следующий узел.
@@ -12,6 +18,7 @@ class LinkedList:
     def __init__(self):
         self.first = None
         self.last = None
+        self.__len = 0
 
     def __str__(self):
         # FIXME: убрать вывод запятой после последнего элемента
@@ -21,6 +28,10 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
                 out += str(current.value) + ','
+            # << FIXME    
+            else:
+                out = out[:len(out)-1]
+            # FIXME >>        
             return out + ']'
         return 'LinkedList []'
 
@@ -45,6 +56,7 @@ class LinkedList:
             new_node = Node(value, None)
             self.last.next = new_node
             self.last = new_node
+        self.__len += 1
 
     def push(self, value):
         """
@@ -56,13 +68,32 @@ class LinkedList:
         else:
             new_node = Node(value, self.first)
             self.first = new_node
+        self.__len += 1
 
     def insert(self, value, index):
         """
         Вставляет узел со значением value на позицию index
         """
-        # TODO: реализовать вставку
-        raise TypeError("Not implemented")
+        if index >= self.len():
+            self.add(value)
+            return
+        if index == 0:
+            self.push(value)
+            return
+
+        current = self.first
+        current_index = 0
+        node_up = None
+        while True:
+            if current_index == index - 1:
+                node_up = current
+                break
+            current = current.next
+            current_index += 1
+
+        new_node = Node(value, node_up.next)
+        node_up.next = new_node
+        self.__len += 1
 
     def find(self, value):
         """
@@ -73,16 +104,43 @@ class LinkedList:
         # TODO: реализовать поиск элемента
         #   подумать над возвращаемым значением, если элемент со значение value не найден
         raise TypeError("Not implemented")
+    
+    def change_value_by_index(self, index):
+        """
+        меняем значения соседних узлов с индексами index и index + 1
+        """
+        if self.__len < 2:
+            return
+        
+        if index >= self.__len - 1:
+            # индекс последнего символа или вне списка
+            return
+              
+        current = self.first
+        current_index = 0
+        while True:
+            if current_index == index:
+                current.value, current.next.value = current.next.value, current.value
+                break
+            current = current.next
+            current_index += 1
+            
+    
+    def reverse(self):
+        """
+        меняет значения
+        всех нод(узлов) на противоположное. Значение первой ноды становится
+        значением последней, значение второй, значением предпоследней.
+        """
+        if self.__len < 2:
+            return
+        
+        for i in range(self.__len - 1):
+            for j in range(self.__len - 1 - i):
+                self.change_value_by_index(j)
 
     def len(self):
-        # TODO: сделать более быструю реализацию, т.к. каждый раз проходка по всем элементам - долго
-        length = 0
-        if self.first is not None:
-            current = self.first
-            while current.next is not None:
-                current = current.next
-                length += 1
-        return length + 1  # +1 для учета self.first
+        return self.__len
 
 
 if __name__ == "__main__":
@@ -90,24 +148,16 @@ if __name__ == "__main__":
     L.add(1)
     L.add(2)
     L.add(3)
-
+    L.add(4)
+    L.add(5)
+    L.add(6)
+    print(L)
+    L.change_value_by_index(8)
+    print(L)
+# 
+#  #   print(L)
+#     L.insert(10, 0)
+    # print(L)
+    L.reverse()
     print(L)
 
-    # TODO: реализовать интерфейс итерации
-    # for el in L:
-    #     print(el)
-    # Напомню принцип работы итератора:
-    # iterator_L = iter(L) L.__iter__()
-    # next(iterator_L) it.__next__()
-    # next(iterator_L)
-    # next(iterator_L)
-    # next(iterator_L)
-
-    # TODO: реализовать обращение по индексу и изменение значение по индексу
-    # print(L[0])
-    # L[0] = "new"
-    # print(L[0])
-
-    # TODO: реализовать создание нового списка с задание начальных элементов
-    # L = LinkedList(2, 4, 6, -12)
-    # print(L)
