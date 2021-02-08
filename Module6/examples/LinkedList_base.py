@@ -1,113 +1,117 @@
-class Node:
-    """
-    Класс для узла списка. Хранит значение и указатель на следующий узел.
-    """
+# Программа баржа
+# Работает нормально, но организована не совсем традиционным способом
+# Изначально задается прямо объект баржа с объектами отсеками
+# Перемещение груза в отсеках проиходит автоматически циклом приоперациях погрузки и разгрузки
+# Можно было оперировать стандартными методами списков
+# Здесь как в жизни, бочки перемещаются по очереди
+#
 
-    def __init__(self, value=None, next=None):
-        self.value = value
-        self.next = next
+class Compartment:
+    def __init__(self,carry):
+        self.carry=carry
+        self.compartment=[]
+        for i in range (0,carry):
+            self.compartment.append(0)
+
+    def to_str(self):
+        out=""
+        for i in self.compartment:
+            out+= f" [ {i} ] "
+        return out
+
+    def can_load(self):
+        for i in self.compartment:
+            if i==0:
+                return True
+        return False
+
+    def load_barrel(self,barrel):
+        if self.can_load():
+            for i in range(-1, -self.carry - 1, -1):
+                if self.compartment[i]!=0:
+                    self.compartment[i+1]=self.compartment[i]
+            self.compartment[0]=barrel
+        else:
+            raise TypeError("Отсек полон")
+
+    def can_unload(self):
+        if self.compartment[0]!=0:
+            return True
+        return False
+
+    def unload_barrel(self):
+        if self.can_unload():
+            barrel=self.compartment[0]
+            i=0
+            for i in range (0,self.carry-1):
+                if self.compartment[i]!=0:
+                    self.compartment[i]= self.compartment[i+1]
+            self.compartment[i + 1]=0
+            return barrel
+        else:
+            raise TypeError("Отсек пуст")
 
 
-class LinkedList:
-    def __init__(self):
-        self.first = None
-        self.last = None
+
+
+
+class Barka:
+    def __init__(self,holds,carry,max_cargo=2): #
+        self.holds=holds
+        self.carry=carry
+        self.cargo=0
+        self.max_cargo=max_cargo
+        self.barka=[]
+        for i in range (0,holds):
+            self.barka.append(Compartment(carry))
 
     def __str__(self):
-        # FIXME: убрать вывод запятой после последнего элемента
-        if self.first is not None:
-            current = self.first
-            out = 'LinkedList [' + str(current.value) + ','
-            while current.next is not None:
-                current = current.next
-                out += str(current.value) + ','
-            return out + ']'
-        return 'LinkedList []'
+        if self.holds>0:
+            out=f"Баржа отсеков: {self.holds} емкость каждого {self.carry} максимальный груз: {self.max_cargo}\n"
+            n=0
+            for i in self.barka:
+                out+=f"Отсек № {n} состояние :{i.to_str()}  \n"
+                n+=1
+            out+=f"Текущая загрузка {self.cargo} Максимальная загрузка {self.max_cargo}"
+            return out
+        return f"Баржа без отсеков"
 
-    def clear(self):
-        """
-        Очищаем список
-        """
-        # TODO: реализовать очистку списка
-        raise TypeError("Not implemented")
+    def load (self,hold,fuel):
+        if self.cargo==self.max_cargo:
+            raise TypeError("Перегрузка, баржа утонет")
+        self.barka[hold].load_barrel(fuel)
+        self.cargo+=1
+        return f" Топливо {fuel} в отсек {hold} успешно погружено"
 
-    def add(self, value):
-        """
-        Добавляем новое значение value в конец списка
-        """
-        # Создаем новый узел
-        new_node = Node(value, None)
-        if self.first is None:
-            # self.first и self.last будут указывать на один и тотже узел
-            self.last = self.first = new_node
+    def unload (self,hold,fuel):
+        fuel_barrel=self.barka[hold].unload_barrel()
+        if fuel_barrel==fuel:
+            self.cargo-=1
+            return f" Заказанное топливо {fuel} из отсека {hold} успешно выгружено"
         else:
-            # здесь, уже на разные
-            new_node = Node(value, None)
-            self.last.next = new_node
-            self.last = new_node
-
-    def push(self, value):
-        """
-        Добавляет элемент со значением value в начало списка
-        """
-        if self.first is None:
-            # self.first и self.last будут указывать на один и тотже узел
-            self.last = self.first = Node(value, None)
-        else:
-            new_node = Node(value, self.first)
-            self.first = new_node
-
-    def insert(self, value, index):
-        """
-        Вставляет узел со значением value на позицию index
-        """
-        # TODO: реализовать вставку
-        raise TypeError("Not implemented")
-
-    def find(self, value):
-        """
-        Ищет элемент со зачением value
-        :param value: значение искомого элемента
-        :return: индекс искомого элемента, или ???, если элемент не найден
-        """
-        # TODO: реализовать поиск элемента
-        #   подумать над возвращаемым значением, если элемент со значение value не найден
-        raise TypeError("Not implemented")
-
-    def len(self):
-        # TODO: сделать более быструю реализацию, т.к. каждый раз проходка по всем элементам - долго
-        length = 0
-        if self.first is not None:
-            current = self.first
-            while current.next is not None:
-                current = current.next
-                length += 1
-        return length + 1  # +1 для учета self.first
+            raise TypeError("Топливо выгружено не то")
 
 
-if __name__ == "__main__":
-    L = LinkedList()
-    L.add(1)
-    L.add(2)
-    L.add(3)
 
-    print(L)
 
-    # TODO: реализовать интерфейс итерации
-    # for el in L:
-    #     print(el)
-    # Напомню принцип работы итератора:
-    # iterator_L = iter(L) L.__iter__()
-    # next(iterator_L) it.__next__()
-    # next(iterator_L)
-    # next(iterator_L)
-    # next(iterator_L)
+barka1=Barka(0,2,2)
+print(barka1)
 
-    # TODO: реализовать обращение по индексу и изменение значение по индексу
-    # print(L[0])
-    # L[0] = "new"
-    # print(L[0])
+barka=Barka(2,3,3)
+print(barka)
 
-    # TODO: реализовать создание нового списка с задание начальных элементов
-    # L = LinkedList(2, 4, 6, -12)
-    # print(L)
+
+print(barka.load(0,99))
+#print(barka)
+print(barka.load(0,20))
+#print(barka)
+print(barka.load(0,29))
+print(barka)
+
+
+
+print(barka.unload(0,99))
+print(barka.unload(0,20))
+#print(barka)
+print(barka.unload(0,99))
+print(barka)
