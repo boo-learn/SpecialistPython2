@@ -1,66 +1,103 @@
-# Возьмите классы Deck и Card с GIST'а второго занятия и доработайте их
-from ... import Deck, Card
+import random
 
-player_money = 100  # Деньги игрока
-rate_value = 10  # Размер ставки
-
-deck = Deck()
-
-
-def sum_points(cards):
-    """
-    Напишите отдельную функцию для нахождения суммы очков всех карт в списке
-    :param cards: список карт(рука игрока или диллера)
-    :return: сумму очков
-    """
-    # Совет: храните кол-во очков за карту внутри класса Колоды(колода "знает", сколько дает очков каждая карта)
-
-    #  Сначала считаем сумму карт, считая ТУЗ за 11-очков
-    sum_points = ...
-    # Если сумма > 21, то перечитываем сумму, считая ТУЗ за 1(единицу)
-    if sum_points > 21:
-        ...
-
-    return sum_points
+SPADES_TYPE = "spades"
+HEARTS_TYPE = "hearts"
+CLUBS_TYPE = "clubs"
+DIAMONDS_TYPE = "diamonds"
 
 
-while True:
-    # 0. Игрок делает ставку
-    player_money -= rate_value
-    # 1. В начале игры перемешиваем колоду
-    # 2. Игроку выдаем две карты
-    player_cards = ...
-    # 3. Дилер берет одну карту
-    dealer_cards = ...
-    # 4. Отображаем в консоли карты игрока и дилера
-    # 5. Проверяем нет ли у игрока блэкджека (21 очко)
-    if sum_points(player_cards) == 21:
-        # Выплачиваем выигрышь 3 и 2
-        player_money += rate_value * 1.5
-        print("Black Jack!!! Игрок победил")
-        # Заканчиваем игру
-    # Если нет блэкджека, то
-    while True:  # Игрок добирает карты пока не скажет "достаточно" или не сделает перебор (>21)
-        player_choice = input("еще(1)/достаточно(0): ")
-        if player_choice == "1":
-            # Раздаем еще одну карту
-            # Если перебор (>21), заканчиваем добор
-            if sum_points(player_cards) > 21:
-                print(f"Перебор: {sum_points(player_cards)} очков")
-                ...
-                break
-        if player_choice == "0":
-            # Заканчиваем добирать карты
-            break
+class Card:
+    types = {
+        "diamonds": '\u2666',
+        "hearts": '\u2665',
+        "spades": '\u2660',
+        "clubs": '\u2663',
+    }
+    rank = (2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A")
+    suit = ("spades", "clubs", "diamonds", "hearts")
 
-    # Если у игрока не 21(блэкджек) и нет перебора, то
-    if ...:
-        print("Диллер добирает карты")
-        while True:  # дилер начинает набирать карты.
-            ...  # Смотри подробные правила добора дилера в задании
+    def __init__(self, value, type):
+        self.value = value
+        self.type = type
 
-    # Выясняем кто набрал больше очков. Выплачиваем/забираем ставку
-    if sum_points(player_cards) > sum_points(dealer_cards):
-        ...
-    else:
-        ...
+        if value == "J" or value == "Q" or value == "K":
+            self.score = 10
+        elif value == "A":
+            self.score = 11
+        else:
+            self.score = value
+
+
+    def to_str(self):
+        return f"{self.value}{Card.types[self.type]}"
+
+    def __repr__(self):
+        return f"{self.value}{Card.types[self.type]}"
+
+    def equal_suit(self, card):
+        return self.type == card.type
+
+    def more(self, card2):
+        if Card.rank.index(self.value) == Card.rank.index(card2.value):
+            return Card.suit.index(self.type) > Card.suit.index(card2.type)
+        else:
+            return Card.rank.index(self.value) > Card.rank.index(card2.value)
+
+    def __gt__(self, card2):  # >
+        if Card.rank.index(self.value) == Card.rank.index(card2.value):
+            return Card.suit.index(self.type) > Card.suit.index(card2.type)
+        else:
+            return Card.rank.index(self.value) > Card.rank.index(card2.value)
+
+    def less(self, card2):
+        pass
+
+    def __eq__(self, other):
+        return self.value == other.value and self.type == other.type
+
+
+class Deck:
+    def __init__(self):
+        self.cards = []
+
+        for type in [HEARTS_TYPE, DIAMONDS_TYPE, CLUBS_TYPE, SPADES_TYPE]:
+            for val in [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]:
+                card = Card(val, type)
+                self.cards.append(card)
+
+    def __repr__(self):
+        str = f"desk[{len(self.cards)}: ]"
+        need_separator = False
+
+        for card in self.cards:
+            if need_separator:
+                str += ", "
+            str += card.to_str()
+            need_separator = True
+
+        return str
+
+    def __getitem__(self, index):
+        return self.cards[index]
+
+    def show(self):
+        str = f"desk[{len(self.cards)}: ]"
+        need_separator = False
+
+        for card in self.cards:
+            if need_separator:
+                str += ", "
+            str += card.to_str()
+            need_separator = True
+
+        return str
+
+    def draw(self, x):
+        # Начало списка карт - верх колоды
+        top_cards = []
+        for _ in range(x):
+            top_cards.append(self.cards.pop(0))
+        return top_cards
+
+    def shuffle(self):
+        random.shuffle(self.cards)
