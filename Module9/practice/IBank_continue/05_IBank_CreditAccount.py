@@ -1,4 +1,4 @@
-from ... import Account
+from Accountv2 import Account
 
 
 # FIXME: допишите текущий класс, чтобы проходили все тесты для него ("TestCreditAccount")
@@ -19,6 +19,8 @@ class CreditAccount(Account):
         """
         Убрать в архив
         """
+        if self.balance < 0:
+            raise ValueError('Нельзя убрать счет с отрицательным балансом в архив')
         self.balance = 0
         self.__in_archive = True
 
@@ -39,3 +41,20 @@ class CreditAccount(Account):
     def full_info(self):
         s = super().full_info()
         return f"<K>{s}"
+
+    def withdraw(self, amount):
+        """
+        Снятие суммы с текущего счета
+        :param amount: сумма
+        """
+        try:
+            super().withdraw(amount)
+        except ValueError:
+            if self.balance - amount * (1 + self.commission / 100) < self.negative_limit:
+                raise ValueError('Превышен лимит')
+            if self.balance < 0:
+                self.balance -= amount * (1 + (self.commission + 3) / 100)
+            else:
+                self.balance -= amount * (1 + self.commission / 100)
+            pass
+
