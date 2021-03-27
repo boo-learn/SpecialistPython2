@@ -1,26 +1,7 @@
-class Card:
-    def __init__(self, value, type):
-        pass
-
-    def to_str(self):
-        pass
-
-
-class Deck:
-    def __init__(self):
-        self.cards = []
-
-    def show(self):
-        pass
-
-    def draw(self, x):
-        pass
-
-    def shuffle(self):
-        pass
-
-
-deck = Deck()
-print(deck.show())
-deck.shuffle()
-print(deck.show())
+    def more(self,card2):
+        ty1 = ['hearts', 'diamonds', 'clubs', 'spades']
+        values=[2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
+        if self.value == card2.value:
+            return ty1.index(self.type) < ty1.index(card2.type)
+        else:
+            return values.index(self.value) > values.index(card2.value)
